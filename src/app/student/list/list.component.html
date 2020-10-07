@@ -1,0 +1,44 @@
+<div class="container" style="margin-top:1cm ">
+  <div class="text-center">
+    <h2>Student List</h2>
+  </div>
+  <button class="btn btn-primary" [routerLink]="['/home/create']">Add new Student</button>
+  <div class="top-search-area ">
+    <form action="" method="post">
+      <input type="search" name="top-search-bar" class="form-control" style="width: 310px"
+             placeholder="Search by Name" [(ngModel)]="keyword"
+             (ngModelChange)="search()">
+        <button style="display: inline" class="btn btn-danger" type="submit" (click)="search()">
+        <i class="fa fa-search" aria-hidden="true">Search</i></button>
+    </form>
+  </div>
+  <table class="table table-bordered text-center">
+    <thead class="thead-light">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Student Code</th>
+      <th scope="col">Date of Birth</th>
+      <th scope="col">Phone Number</th>
+      <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let st of studentList">
+      <th scope="row">{{st.id}}</th>
+      <td>{{st.name}}</td>
+      <td>{{st.studentCode}}</td>
+      <td>{{st.dateOfBirth | date:"dd/MM/yyyy"}}</td>
+      <td>{{st.phone}}</td>
+      <td>
+      <span class="table-remove"><button type="button" class="btn btn-warning btn-rounded btn-sm my-0"
+                                         [routerLink]="['/home/update', st.id]">Edit</button></span>
+        &nbsp;
+        <span class="table-remove"><button type="button" class="btn btn-danger btn-rounded btn-sm my-0"
+                                           (click)="deleteStudent(st.id)">Delete</button></span>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

@@ -1,0 +1,54 @@
+<div class="container text-center" style="margin-top: 1cm">
+  <h3>Add new student</h3>
+  <form [formGroup]="studentCreateForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>
+        Name:
+        <br>
+        <input type="text" formControlName="name">
+      </label>
+    </div>
+    <div *ngIf="studentCreateForm.get('name').invalid && studentCreateForm.get('name').touched"
+         style="color: #ff0000">
+      Name is required and min length is 2
+    </div>
+    <div>
+      <label>
+        Student Code:
+        <br>
+        <input type="text" formControlName="studentCode">
+      </label>
+    </div>
+    <div *ngIf="studentCreateForm.get('studentCode').invalid && studentCreateForm.get('studentCode').touched"
+         style="color: red">
+      Student Code is required and min length is 5
+    </div>
+    <div>
+      <label>
+        Date of Birth:
+        <br>
+        <input type="date" name="dob" formControlName="dateOfBirth">
+      </label>
+    </div>
+    <div></div>
+    <div *ngIf="studentCreateForm.get('dateOfBirth').invalid && studentCreateForm.get('dateOfBirth').touched"
+         style="color: red">
+      Date of Birth is required
+    </div>
+    <div>
+      <label>
+        Phone number:
+        <br>
+        <input type="text" formControlName="phone">
+      </label>
+    </div>
+    <div *ngIf="studentCreateForm.get('phone').invalid && studentCreateForm.get('phone').touched"
+         style="color: red">
+      Phone number is required and between 10 and 11
+    </div>
+
+    <button class="btn btn-success" type="submit">Add Student</button>
+    &ngsp;
+    <button class="btn btn-primary" [routerLink]="['/home']">Cancel</button>
+  </form>
+</div>

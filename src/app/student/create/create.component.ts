@@ -45,8 +45,7 @@ export class CreateComponent implements OnInit {
           [Validators.required,
             Validators.minLength(10),
             Validators.maxLength(11)])
-      }
-    );
+      });
   }
 
   onSubmit(): void {
@@ -59,42 +58,20 @@ export class CreateComponent implements OnInit {
         confirmButtonText: `Save`,
         denyButtonText: `Don't save`,
       }).then((result) => {
-        /* get student list & check duplicated code*/
-        this.studentService.showStudentList()
-          // tslint:disable-next-line:no-shadowed-variable
-          .subscribe(studentList => {
-            // tslint:disable-next-line:prefer-const
-            let flag: number;
-            flag = 1;
-            studentList.forEach((student) => {
-              const check = value.studentCode.localeCompare(student.studentCode);
-              // tslint:disable-next-line:triple-equals
-              if (check == 0) {
-                flag = 0;
-              }
-            });
-            console.log(flag);
-            // tslint:disable-next-line:triple-equals
-            if (flag != 0) {
-              /* If it's confirmed and not duplicated then add new Student to Database */
-              if (result.isConfirmed) {
-                this.studentService.createStudent(value)
-                  .subscribe(newStudent => {
-                    this.studentList.push(newStudent);
-                    console.log(result);
-                    this.router.navigate(['/home']);
-                  });
-                Swal.fire('Saved!', '', 'success');
-              } else if (result.isDenied) {
+          if (result.isConfirmed) {
+            this.studentService.createStudent(value)
+              .subscribe(responseEnt => {
+                this.studentList.push(responseEnt);
+                console.log(responseEnt);
                 this.router.navigate(['/home']);
-                Swal.fire('Changes are not saved', '', 'info');
-              }
-            } else {
-              Swal.fire('Student\'s code is duplicated', '', 'warning');
-              // @ts-ignore
-              this.router.navigate('[/home/create]');
-            }
-          });
+              }, error => {
+                Swal.fire('Student\'s code is dulicated', '' , 'warning');
+                });
+            Swal.fire('Saved!', '', 'success');
+          } else if (result.isDenied) {
+            this.router.navigate(['/home']);
+            Swal.fire('Changes are not saved', '', 'info');
+          }
       });
     }
   }

@@ -65,9 +65,11 @@ export class UpdateComponent implements OnInit {
           this.studentService.updateStudent(data)
             // tslint:disable-next-line:no-shadowed-variable
             .subscribe(result => {
+              Swal.fire('Saved!', '', 'success');
               this.routes.navigate(['/home']);
+            }, error => {
+              Swal.fire('Student not found', '', 'warning');
             });
-          Swal.fire('Saved!', '', 'success');
         } else if (result.isDenied) {
           this.routes.navigate(['/home']);
           Swal.fire('Changes are not saved', '', 'info');
